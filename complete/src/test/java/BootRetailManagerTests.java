@@ -16,6 +16,9 @@
 
 import java.util.Map;
 
+import com.retailmanager.dao.ShopDao;
+import com.retailmanager.impl.ShopDaoImpl;
+import com.retailmanager.model.Shop;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +54,15 @@ public class BootRetailManagerTests {
 	private TestRestTemplate testRestTemplate;
 
 	@Test
-	public void shouldReturn200WhenSendingRequestToController() throws Exception {
-		assertEquals("JunitTest", "JunitTest");
+	public void shouldReturnBooleanAfterAddingFirstShop() throws Exception {
+		ShopDao shopDao = new ShopDaoImpl();
+		Shop shop = new Shop();
+		shop.setShopAddress("ABC");
+		shop.setShopName("ABCBooks");
+		shop.setShopPostCode("411020");
+		boolean firstShop = shopDao.addShop(shop);
+
+		assertEquals(firstShop, true);
 	}
 
 }

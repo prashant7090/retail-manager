@@ -35,7 +35,7 @@ public class Haversine {
     }
 
     /**
-     * Returns value which is calculated by below formula, For formally, we have split Haversine
+     * Returns value which is calculated by below formula. More formally, we have split Haversine
      * and wrote function for common code.
      * @param val val whose value to calculate.
      * @return <tt>double</tt> value which is calculated by below formula

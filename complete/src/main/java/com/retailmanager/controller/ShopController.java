@@ -34,7 +34,12 @@ public class ShopController {
     @Autowired
     ShopDao shopDao;
 
-
+    /**
+     * Returns near by shops if resides in 10KM.
+     * @param customer customer POJO class has latitude and longitude.
+     * @return <p> List of near by shops with HttpStatus.FOUND status code, if shops are found within 10KM radius </p>
+     * @return <p> Empty list with HttpStatus.NO_CONTENT status code, if shops are not found. </p>
+     */
     @RequestMapping(method= RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<?> getAllNearByShops(@Valid Customer customer) {
@@ -47,7 +52,14 @@ public class ShopController {
         }
     }
 
-
+    /**
+     * Returns shop is added message with shop information if new shop is added and
+     * shop is updated message with shop information if shop is updated!
+     * @param shop shop POJO class has all the shop attributes.
+     * @return <p>Added new shop as message with shop information and HttpStatus.CREATED status code.</p>
+     * @return <P>Updated Shop Address as message with shop information and HttpStatus.OK status code.</P>
+     * @throws Exception if google map API could not able to find the latitude and longitude by address and postal code
+     */
     @RequestMapping(method=RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<?> addShops(@RequestBody Shop shop) throws Exception {
@@ -61,6 +73,14 @@ public class ShopController {
         }
     }
 
+    /**
+     * Returns latitude and longitude by using google map API
+     * @param address shop address.
+     * @param  postalCode the postal code of the address
+     * @return <p>latitude and longitude returns by google map API</p>
+     * @throws Exception if google map API could not able to find the
+     * latitude and longitude by address and postal code
+     */
     private Map<String,String> getLatLongFromAddress(String address, String postalCode) throws Exception {
         Map<String, String> latLong = new HashMap<>();
         String api = "http://maps.googleapis.com/maps/api/geocode/xml?address=" + URLEncoder.encode(address + " " + postalCode, "UTF-8") + "&sensor=true";

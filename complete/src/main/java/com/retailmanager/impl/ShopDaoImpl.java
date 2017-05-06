@@ -47,7 +47,7 @@ public class ShopDaoImpl implements ShopDao{
 
     /**
      * Returns all the near by shops within NEARBYDISTANCE. More formally, It finds the shops which are in
-     * 10KM radios.  The distance is calculated by haversine formula by
+     * 10KM radius. The distance is calculated by haversine formula by
      * specifying customer's latitude, customer's longitude, shop's latitude and shop's longitude.
      * @param latitude Customer's latitude.
      * @param longitude Customer's longitude.

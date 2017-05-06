@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface ShopDao {
     boolean addShop(Shop shop);
-    List<Shop> getShops();
+    List<Shop> getNearByShops(Double latitude, Double longitude);
 }

@@ -13,7 +13,7 @@ latitude and longitude of shop is calculated using Google map API.
  2. Junit 
  3. Gradle
 
-## POST request:
+## POST REQUEST:
   curl --request POST   
   --url http://localhost:9000/shop   
   --header 'cache-control: no-cache'   

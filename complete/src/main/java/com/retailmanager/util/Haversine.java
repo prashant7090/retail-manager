@@ -11,6 +11,14 @@ public class Haversine {
 
     private static final int EARTH_RADIUS = 6371; // Approx Earth radius in KM
 
+    /**
+     * Returns distance between two lat long points.
+     * @param startLat customer's latitude.
+     * @param startLong customer's longitude.
+     * @param endLat shop's latitude.
+     * @param endLong shops's latitude.
+     * @return <tt>double</tt> value of distance between two latitude and longitude
+     */
     public double distance(double startLat, double startLong,
                                   double endLat, double endLong) {
 
@@ -26,6 +34,12 @@ public class Haversine {
         return EARTH_RADIUS * c;
     }
 
+    /**
+     * Returns value which is calculated by below formula, For formally, we have split Haversine
+     * and wrote function for common code.
+     * @param val val whose value to calculate.
+     * @return <tt>double</tt> value which is calculated by below formula
+     */
     private double haversin(double val) {
         return Math.pow(Math.sin(val / 2), 2);
     }

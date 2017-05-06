@@ -3,6 +3,7 @@ package com.retailmanager.controller;
 import com.retailmanager.dao.ShopDao;
 import com.retailmanager.model.Customer;
 import com.retailmanager.model.Shop;
+import com.retailmanager.util.GoogleApiUrlBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,9 @@ import java.util.function.Supplier;
 public class ShopController {
     @Autowired
     ShopDao shopDao;
+
+    @Autowired
+    GoogleApiUrlBuilder googleApiUrlBuilder;
 
     /**
      * Returns near by shops if resides in 10KM.
@@ -83,7 +87,10 @@ public class ShopController {
      */
     private Map<String,String> getLatLongFromAddress(String address, String postalCode) throws Exception {
         Map<String, String> latLong = new HashMap<>();
-        String api = "http://maps.googleapis.com/maps/api/geocode/xml?address=" + URLEncoder.encode(address + " " + postalCode, "UTF-8") + "&sensor=true";
+        String api = googleApiUrlBuilder.withApiUrl("http://maps.googleapis.com/maps/api/geocode/xml")
+                .withAddress(address)
+                .withPostalCode(postalCode)
+                .build();
         URL url = new URL(api);
         HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
         httpConnection.connect();

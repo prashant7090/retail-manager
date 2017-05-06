@@ -1,17 +1,16 @@
 package com.retailmanager.controller;
 
 import com.retailmanager.dao.ShopDao;
+import com.retailmanager.model.Customer;
 import com.retailmanager.model.Shop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.Document;
 
+import javax.validation.Valid;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
@@ -38,8 +37,9 @@ public class ShopController {
 
     @RequestMapping(method= RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<?> getAllShops() {
-        Supplier<List<Shop>> shops = () -> shopDao.getShops();
+    ResponseEntity<?> getAllNearByShops(@Valid Customer customer) {
+        //Make getNearByShops Lazy!
+        Supplier<List<Shop>> shops = () -> shopDao.getNearByShops(customer.getLatitude(),customer.getLongitude());
         if(shops.get().isEmpty()){
             return new ResponseEntity<Object>("No shop found", HttpStatus.NO_CONTENT);
         }else{

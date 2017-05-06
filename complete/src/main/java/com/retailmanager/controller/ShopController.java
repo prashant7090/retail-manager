@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by prashant on 5/2/17.
@@ -66,8 +68,13 @@ public class ShopController {
      */
     @RequestMapping(method=RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<?> addShops(@RequestBody Shop shop) throws Exception {
-        Map<String,String> latLong = getLatLongFromAddress(shop.getShopAddress(),shop.getShopPostCode());
+    ResponseEntity<?> addShops(@RequestBody Shop shop) {
+        Map<String,String> latLong = new HashMap<>();
+        try{
+            latLong = getLatLongFromAddress(shop.getShopAddress(),shop.getShopPostCode());
+        }catch (Exception ex){
+            Logger.getLogger("ShopController.class").log(Level.SEVERE,"Exception occurred with Google API: " + ex + " while serving shop: " + shop);
+        }
         shop.setLat(latLong.getOrDefault("latitude", "No Latitude Found"));
         shop.setLng(latLong.getOrDefault("longitude", "No Longitude Found"));
         if(shopDao.addShop(shop)){
@@ -75,7 +82,7 @@ public class ShopController {
         }else{
             return new ResponseEntity<Object>("Updated Shop Address: " + shop, HttpStatus.OK);
         }
-    }
+     }
 
     /**
      * Returns latitude and longitude by using google map API

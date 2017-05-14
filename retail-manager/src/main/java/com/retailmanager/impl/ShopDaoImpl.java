@@ -2,12 +2,11 @@ package com.retailmanager.impl;
 
 import com.retailmanager.dao.ShopDao;
 import com.retailmanager.model.Shop;
-import com.retailmanager.util.Haversine;
+import com.retailmanager.util.DistanceCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,7 +23,7 @@ public class ShopDaoImpl implements ShopDao{
     private int NEARBYDISTANCE;
 
     @Autowired
-    Haversine haversine;
+    DistanceCalculator distanceCalculator;
 
     /**
      * Returns true if shop is added or false if updated. More formally, The shop name is unique
@@ -49,7 +48,7 @@ public class ShopDaoImpl implements ShopDao{
 
     /**
      * Returns all the near by shops within NEARBYDISTANCE. More formally, It finds the shops which are in
-     * 10KM radius. The distance is calculated by haversine formula by
+     * NEARBYDISTANCE radius. The distance is calculated by <b>haversin</b> formula by
      * specifying customer's latitude, customer's longitude, shop's latitude and shop's longitude.
      * @param latitude Customer's latitude.
      * @param longitude Customer's longitude.
@@ -61,7 +60,7 @@ public class ShopDaoImpl implements ShopDao{
                 .filter(shops -> isValidLatLong(shops.getValue().getLatitude(), shops.getValue().getLongitude()))
                 .filter(validShop ->
                         isNearByDistance(
-                                haversine.distance(
+                                distanceCalculator.distance(
                                         latitude, longitude,
                                         Double.parseDouble(validShop.getValue().getLatitude()),
                                         Double.parseDouble(validShop.getValue().getLongitude()))))

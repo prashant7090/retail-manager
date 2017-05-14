@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class Haversine {
+public class DistanceCalculator {
 
     private static final int EARTH_RADIUS = 6371; // Approx Earth radius in KM
 
@@ -35,7 +35,7 @@ public class Haversine {
     }
 
     /**
-     * Returns value which is calculated by below formula. More formally, we have split Haversine
+     * Returns value which is calculated by below formula. More formally, we have split DistanceCalculator
      * and wrote function for common code.
      * @param val val whose value to calculate.
      * @return <tt>double</tt> value which is calculated by below formula

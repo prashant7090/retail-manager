@@ -4,6 +4,7 @@ import com.retailmanager.dao.ShopDao;
 import com.retailmanager.model.Shop;
 import com.retailmanager.util.Haversine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -19,7 +20,8 @@ import java.util.stream.Collectors;
 public class ShopDaoImpl implements ShopDao{
     Map<String,Shop> shopMap = new ConcurrentHashMap<>();
 
-    private final int NEARBYDISTANCE = 10;
+    @Value("${nearby.distance}")
+    private int NEARBYDISTANCE;
 
     @Autowired
     Haversine haversine;
@@ -56,13 +58,13 @@ public class ShopDaoImpl implements ShopDao{
     @Override
     public List<Shop> getNearByShops(Double latitude, Double longitude) {
         return shopMap.entrySet().stream()
-                .filter(shops -> isValidLatLong(shops.getValue().getLat(), shops.getValue().getLng()))
+                .filter(shops -> isValidLatLong(shops.getValue().getLatitude(), shops.getValue().getLongitude()))
                 .filter(validShop ->
                         isNearByDistance(
                                 haversine.distance(
                                         latitude, longitude,
-                                        Double.parseDouble(validShop.getValue().getLat()),
-                                        Double.parseDouble(validShop.getValue().getLng()))))
+                                        Double.parseDouble(validShop.getValue().getLatitude()),
+                                        Double.parseDouble(validShop.getValue().getLongitude()))))
                 .map(stringShopEntry -> stringShopEntry.getValue())
                 .collect(Collectors.toList());
 
@@ -81,7 +83,7 @@ public class ShopDaoImpl implements ShopDao{
 
 
     /**
-     * Returns <tt>true</tt> if this latitude & longitude is parsable to
+     * Returns <tt>true</tt> if this latitude and longitude is parsable to
      * double, More Formally, Some shop may not have latitude and longitude.
      * @param latitude latitude to test parsable to double.
      * @param longitude longitude to test parsable to double.

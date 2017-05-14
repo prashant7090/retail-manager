@@ -1,10 +1,12 @@
 package com.retailmanager.controller;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.retailmanager.dao.ShopDao;
 import com.retailmanager.model.Customer;
 import com.retailmanager.model.Shop;
 import com.retailmanager.util.GoogleApiUrlBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,7 +22,6 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,18 @@ public class ShopController {
 
     @Autowired
     GoogleApiUrlBuilder googleApiUrlBuilder;
+
+    @Value("${google.geocode.url}")
+    private String googleGeoCodeUrl;
+
+    @Value("${google.api.key}")
+    private String googleApiKey;
+
+    @Value("${default.latitude.message}")
+    private String defaultLatitudeMessage;
+
+    @Value("${default.longitude.message}")
+    private String defaultLongitudeMessage;
 
     /**
      * Returns near by shops if resides in 10KM.
@@ -64,7 +77,6 @@ public class ShopController {
      * @param shop shop POJO class has all the shop attributes.
      * @return <p>Added new shop as message with shop information and HttpStatus.CREATED status code.</p>
      * @return <P>Updated Shop Address as message with shop information and HttpStatus.OK status code.</P>
-     * @throws Exception if google map API could not able to find the latitude and longitude by address and postal code
      */
     @RequestMapping(method=RequestMethod.POST)
     public @ResponseBody
@@ -75,8 +87,8 @@ public class ShopController {
         }catch (Exception ex){
             Logger.getLogger("ShopController.class").log(Level.SEVERE,"Exception occurred with Google API: " + ex + " while serving shop: " + shop);
         }
-        shop.setLat(latLong.getOrDefault("latitude", "No Latitude Found"));
-        shop.setLng(latLong.getOrDefault("longitude", "No Longitude Found"));
+        shop.setLatitude(latLong.getOrDefault("latitude", defaultLatitudeMessage));
+        shop.setLongitude(latLong.getOrDefault("longitude", defaultLongitudeMessage));
         if(shopDao.addShop(shop)){
             return new ResponseEntity<Object>("Added new shop: " + shop, HttpStatus.CREATED);
         }else{
@@ -94,9 +106,10 @@ public class ShopController {
      */
     private Map<String,String> getLatLongFromAddress(String address, String postalCode) throws Exception {
         Map<String, String> latLong = new HashMap<>();
-        String api = googleApiUrlBuilder.withApiUrl("http://maps.googleapis.com/maps/api/geocode/xml")
+        String api = googleApiUrlBuilder.withApiUrl(googleGeoCodeUrl)
                 .withAddress(address)
                 .withPostalCode(postalCode)
+                .withGoogleApiKey(googleApiKey)
                 .build();
         URL url = new URL(api);
         HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();

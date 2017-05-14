@@ -12,6 +12,7 @@ public class GoogleApiUrlBuilder {
     private  String apiUrl;
     private  String address;
     private  String postalCode;
+    private String googleApiKey;
 
     public GoogleApiUrlBuilder withApiUrl(String apiUrl){
         this.apiUrl = apiUrl;
@@ -26,6 +27,11 @@ public class GoogleApiUrlBuilder {
     public GoogleApiUrlBuilder withPostalCode(String postalCode){
         this.postalCode = postalCode;
         return  this;
+    }
+
+    public GoogleApiUrlBuilder withGoogleApiKey(String googleApiKey){
+        this.googleApiKey = googleApiKey;
+        return this;
     }
 
     /**
@@ -44,16 +50,20 @@ public class GoogleApiUrlBuilder {
         }
 
         if (hasValue(postalCode)){
-            url = url + URLEncoder.encode(postalCode);
+            url = url + URLEncoder.encode(postalCode) + "&key=";
+        }
+
+        if (hasValue(googleApiKey)){
+            url = url+ URLEncoder.encode(googleApiKey);
         }
 
         url = url + "&sensor=true";
-
+        System.out.println("URL: " + url);
         return url;
     }
     /**
      * Returns true if string is not null and not a empty
-     * @return <tt> true </tt></> if string has some value
+     * @return <tt> true </tt> if string has some value
      * @return <tt> false </tt> if string is null or empty
      */
     private boolean hasValue(String value) {

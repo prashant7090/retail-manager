@@ -11,8 +11,8 @@ public class Shop {
     private String shopName;
     private String shopAddress;
     private String shopPostCode;
-    private String lat;
-    private String lng;
+    private String latitude;
+    private String longitude;
     public String getShopName() {
         return shopName;
     }
@@ -39,21 +39,22 @@ public class Shop {
         this.shopPostCode = shopPostCode;
     }
 
-    public String getLat() {
-        return lat;
+    public String getLatitude() {
+        return latitude;
     }
 
-    public void setLat(String lat) {
-        this.lat = lat;
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 
-    public String getLng() {
-        return lng;
+    public String getLongitude() {
+        return longitude;
     }
 
-    public void setLng(String lng) {
-        this.lng = lng;
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
+
 
     @Override
     public String toString() {
@@ -61,8 +62,8 @@ public class Shop {
                 "shopName='" + shopName + '\'' +
                 ", shopAddress='" + shopAddress + '\'' +
                 ", shopPostCode='" + shopPostCode + '\'' +
-                ", lat='" + lat + '\'' +
-                ", lng='" + lng + '\'' +
+                ", latitude='" + latitude + '\'' +
+                ", longitude='" + longitude + '\'' +
                 '}';
     }
 }

@@ -54,10 +54,10 @@ public class ShopController {
     private String defaultLongitudeMessage;
 
     /**
-     * Returns near by shops if resides in 10KM.
+     * Returns near by shops if resides in NEARBYDISTANCE.
      * @param customer customer POJO class has latitude and longitude.
      * @return <p> List of near by shops with HttpStatus.FOUND status code, if shops are found within 10KM radius </p>
-     * @return <p> Empty list with HttpStatus.NO_CONTENT status code, if shops are not found. </p>
+     * <p> Empty list with HttpStatus.NO_CONTENT status code, if shops are not found. </p>
      */
     @RequestMapping(method= RequestMethod.GET)
     public @ResponseBody
@@ -72,11 +72,11 @@ public class ShopController {
     }
 
     /**
-     * Returns shop is added message with shop information if new shop is added and
-     * shop is updated message with shop information if shop is updated!
+     * Return JSON object with parameter <b>message</b> as, New shop is Added and parameter <b>shop</b> as, shop information, if, new shop added.
+     * return JSON object with parameter <b>message</b> as, Shop Address is updated and parameter <b>shop</b> as, shop information, if, shop is already present.
      * @param shop shop POJO class has all the shop attributes.
-     * @return <p>return JSON object with parameter <b>message</b> as New shop is Added and <b>shop</b> as shop information with HttpStatus.CREATED status code.</p>
-     * @return <P>return JSON object with parameter <b>message</b> as Shop Address is updated and <b>shop</b> as shop information HttpStatus.OK status code.</P>
+     * @return <p>return JSON object with parameter <b>message</b> as, New shop is Added and parameter <b>shop</b> as, shop information, with HttpStatus.CREATED status code.</p>
+     * <P>return JSON object with parameter <b>message</b> as, Shop Address is updated and <b>shop</b> as, shop information, with HttpStatus.OK status code.</P>
      */
     @RequestMapping(method=RequestMethod.POST)
     public @ResponseBody

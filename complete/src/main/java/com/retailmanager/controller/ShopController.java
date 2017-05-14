@@ -75,8 +75,8 @@ public class ShopController {
      * Returns shop is added message with shop information if new shop is added and
      * shop is updated message with shop information if shop is updated!
      * @param shop shop POJO class has all the shop attributes.
-     * @return <p>Added new shop as message with shop information and HttpStatus.CREATED status code.</p>
-     * @return <P>Updated Shop Address as message with shop information and HttpStatus.OK status code.</P>
+     * @return <p>return JSON object with parameter <b>message</b> as New shop is Added and <b>shop</b> as shop information with HttpStatus.CREATED status code.</p>
+     * @return <P>return JSON object with parameter <b>message</b> as Shop Address is updated and <b>shop</b> as shop information HttpStatus.OK status code.</P>
      */
     @RequestMapping(method=RequestMethod.POST)
     public @ResponseBody
@@ -90,9 +90,15 @@ public class ShopController {
         shop.setLatitude(latLong.getOrDefault("latitude", defaultLatitudeMessage));
         shop.setLongitude(latLong.getOrDefault("longitude", defaultLongitudeMessage));
         if(shopDao.addShop(shop)){
-            return new ResponseEntity<Object>("Added new shop: " + shop, HttpStatus.CREATED);
+            Map responseMap = new HashMap();
+            responseMap.put("message", "New shop is Created");
+            responseMap.put("shop",shop);
+            return new ResponseEntity<Object>(responseMap, HttpStatus.CREATED);
         }else{
-            return new ResponseEntity<Object>("Updated Shop Address: " + shop, HttpStatus.OK);
+            Map responseMap = new HashMap();
+            responseMap.put("message", "Shop Address is Updated");
+            responseMap.put("shop",shop);
+            return new ResponseEntity<Object>(responseMap, HttpStatus.OK);
         }
      }
 

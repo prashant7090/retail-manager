@@ -19,7 +19,7 @@ public class DistanceCalculator {
      * @param endLong shops's latitude.
      * @return <tt>double</tt> value of distance between two latitude and longitude
      */
-    public double distance(double startLat, double startLong,
+    public double getDistance(double startLat, double startLong,
                                   double endLat, double endLong) {
 
         double dLat  = Math.toRadians((endLat - startLat));
@@ -28,7 +28,7 @@ public class DistanceCalculator {
         startLat = Math.toRadians(startLat);
         endLat   = Math.toRadians(endLat);
 
-        double a = haversin(dLat) + Math.cos(startLat) * Math.cos(endLat) * haversin(dLong);
+        double a = getHaversinValue(dLat) + Math.cos(startLat) * Math.cos(endLat) * getHaversinValue(dLong);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
         return EARTH_RADIUS * c;
@@ -40,7 +40,7 @@ public class DistanceCalculator {
      * @param val val whose value to calculate.
      * @return <tt>double</tt> value which is calculated by below formula
      */
-    private double haversin(double val) {
+    private double getHaversinValue(double val) {
         return Math.pow(Math.sin(val / 2), 2);
     }
 

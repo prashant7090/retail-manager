@@ -60,7 +60,7 @@ public class ShopDaoImpl implements ShopDao{
                 .filter(shops -> isValidLatLong(shops.getValue().getLatitude(), shops.getValue().getLongitude()))
                 .filter(validShop ->
                         isNearByDistance(
-                                distanceCalculator.distance(
+                                distanceCalculator.getDistance(
                                         latitude, longitude,
                                         Double.parseDouble(validShop.getValue().getLatitude()),
                                         Double.parseDouble(validShop.getValue().getLongitude()))))

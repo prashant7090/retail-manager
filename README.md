@@ -5,7 +5,7 @@ latitude and longitude of shop is calculated using Google map API.
 
 ## Run the Project:
  1. Clone the Project
- 2. Go to project's sub directory *complete*.
+ 2. Go to project's sub directory *retail-manager*.
  3. Run command: ./gradlew clean build && java -jar build/libs/gs-actuator-service-0.1.0.jar
  
 ## Technology used:

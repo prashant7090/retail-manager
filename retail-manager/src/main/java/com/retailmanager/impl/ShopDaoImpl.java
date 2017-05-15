@@ -27,11 +27,12 @@ public class ShopDaoImpl implements ShopDao{
     DistanceCalculator distanceCalculator;
 
     /**
-     * Returns true if shop is added or false if updated. More formally, The shop name is unique
+     * Returns map with message as <b>New shop is Created</b> along with shop information if shop is created first time.
+     * Returns map with message as <b>Shop address is Updated</b> along with previous and new shop information if same shop is updated. More formally, The shop name is unique
      * so, if another/same user tries to add shop with the same name, we update the shop info.
      * @param shop shop to be added .
-     * @return <tt>true</tt> if new shop is added
-     * @return <tt>false</tt> if shop information is updated
+     * @return returns map with message as <b>New shop is Created</b> along with shop information if shop is created and
+     * Returns map with message as <b>Shop address is Updated</b> along with previous and new shop information if same shop is updated
      */
     @Override
     public Map addShop(Shop shop) {

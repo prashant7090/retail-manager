@@ -72,11 +72,14 @@ public class ShopController {
     }
 
     /**
-     * Return JSON object with parameter <b>message</b> as, New shop is Added and parameter <b>shop</b> as, shop information, if, new shop added.
-     * return JSON object with parameter <b>message</b> as, Shop Address is updated and parameter <b>shop</b> as, shop information, if, shop is already present.
+     * returns JSON object with message as <b>New shop is Created</b> along with shop information, if shop is created first time,
+     * <P>return JSON object with parameter <b>message</b> as, Shop Address is updated and parameter <b>previousAddress</b> as, previous shop information
+     * and parameter <b>CurrentAddress</b> as, updated shop information, with 200 status code.</P>.
      * @param shop shop POJO class has all the shop attributes.
-     * @return <p>return JSON object with parameter <b>message</b> as, New shop is Added and parameter <b>shop</b> as, shop information, with HttpStatus.CREATED status code.</p>
-     * <P>return JSON object with parameter <b>message</b> as, Shop Address is updated and <b>shop</b> as, shop information, with HttpStatus.OK status code.</P>
+     * @return <p>returns map with message as <b>New shop is Created</b> along with shop information, if shop is created first time,
+     * with 201 status code.</p>
+     * <P>return JSON object with parameter <b>message</b> as, Shop Address is updated and parameter <b>previousAddress</b> as, previous shop information
+     * and parameter <b>CurrentAddress</b> as, updated shop information, with 200 status code.</P>
      */
     @RequestMapping(method=RequestMethod.POST)
     public @ResponseBody
@@ -91,9 +94,9 @@ public class ShopController {
         shop.setLongitude(latLong.getOrDefault("longitude", defaultLongitudeMessage));
         Map responseMap = shopDao.addShop(shop);
         if(responseMap.containsKey("PreviousAddress")){
-            return new ResponseEntity<Object>(responseMap, HttpStatus.CREATED);
-        }else{
             return new ResponseEntity<Object>(responseMap, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<Object>(responseMap, HttpStatus.CREATED);
         }
      }
 

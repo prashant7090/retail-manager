@@ -60,9 +60,9 @@ public class BootRetailManagerTests {
 		shop.setShopAddress("ABC");
 		shop.setShopName("ABCBooks");
 		shop.setShopPostCode("411020");
-		boolean firstShop = shopDao.addShop(shop);
+		Map firstShop = shopDao.addShop(shop);
 
-		assertEquals(firstShop, true);
+		assertEquals(firstShop.containsKey("shop"), true);
 	}
 
 }

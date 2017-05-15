@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,17 +34,29 @@ public class ShopDaoImpl implements ShopDao{
      * @return <tt>false</tt> if shop information is updated
      */
     @Override
-    public boolean addShop(Shop shop) {
+    public Map addShop(Shop shop) {
         for (;;) {
             Shop oldShop = shopMap.putIfAbsent(shop.getShopName(),shop);
-            if (oldShop == null)
-                return true;
+            if (oldShop == null) {
+                Map responseMap = new HashMap();
+                responseMap.put("message", "New shop is Created");
+                responseMap.put("shop", shop);
+                return responseMap;
+            }
 
-            if (shopMap.replace(shop.getShopName(), oldShop, shop))
-                return false;
+            if (shopMap.replace(shop.getShopName(), oldShop, shop)){
+                Map responseMap = new HashMap();
+                responseMap.put("message", "Shop address is Updated");
+                Map newShop = new HashMap();
+                newShop.put("shop", shop);
+                //Surprisingly new HashMap().put("shop",shop) not working
+                responseMap.put("CurrentAddress", newShop);
+                Map prevShop = new HashMap();
+                prevShop.put("shop", oldShop);
+                responseMap.put("PreviousAddress",prevShop);
+                return responseMap;
+            }
         }
-
-
     }
 
     /**

@@ -89,15 +89,10 @@ public class ShopController {
         }
         shop.setLatitude(latLong.getOrDefault("latitude", defaultLatitudeMessage));
         shop.setLongitude(latLong.getOrDefault("longitude", defaultLongitudeMessage));
-        if(shopDao.addShop(shop)){
-            Map responseMap = new HashMap();
-            responseMap.put("message", "New shop is Created");
-            responseMap.put("shop",shop);
+        Map responseMap = shopDao.addShop(shop);
+        if(responseMap.containsKey("PreviousAddress")){
             return new ResponseEntity<Object>(responseMap, HttpStatus.CREATED);
         }else{
-            Map responseMap = new HashMap();
-            responseMap.put("message", "Shop Address is Updated");
-            responseMap.put("shop",shop);
             return new ResponseEntity<Object>(responseMap, HttpStatus.OK);
         }
      }
